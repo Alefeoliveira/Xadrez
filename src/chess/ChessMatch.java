@@ -18,6 +18,7 @@ public class ChessMatch {
 	private boolean check;
 	private boolean checkMate;
 	
+	
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
 	private List<Piece> capturedPieces = new ArrayList<>();
 	
@@ -150,6 +151,7 @@ public class ChessMatch {
 	
 	private Piece makeMove(Position source, Position target) {
 		Piece p = board.removePiece(source);
+		((ChessPiece) p).increaseMoveCount();
 		Piece capturedPiece = board.removePiece(target);
 		board.placePiece(p, target);
 		
@@ -162,8 +164,8 @@ public class ChessMatch {
 	
 	private void undoMovie(Position source, Position target, Piece capturedPiece) {
 		Piece p = board.removePiece(target);
+		((ChessPiece) p).decreaseMoveCount();
 		board.placePiece(p, source);
-		
 		if(capturedPiece != null) {
 			board.placePiece(capturedPiece, target);
 			capturedPieces.remove(capturedPiece);
